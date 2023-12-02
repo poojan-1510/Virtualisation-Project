@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                // Install Python and pip
+                script {
+                    sh 'apt-get update'
+                    sh 'apt-get install -y python3 python3-pip'
+                }
+
+                // Install project dependencies
+                script {
+                    sh 'pip3 install -r requirements.txt'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+               
+                script {
+                    sh 'python3 manage.py test'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+          
+        }
+
+        success {
+           
+        }
+
+        failure {
+            
+        }
+    }
+}
